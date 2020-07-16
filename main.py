@@ -4,10 +4,7 @@ from urllib.parse import urlparse
 from dotenv import load_dotenv
 import argparse
 
-load_dotenv()
 
-
-BITLY_TOKEN = os.getenv('BITLY_TOKEN')
 
 
 def shorten_link(token, link):
@@ -45,7 +42,9 @@ def recover_link(token, bitlink):
     return response.json()['long_url']
 
 
-if __name__ == "__main__":
+def main():
+    load_dotenv()
+    BITLY_TOKEN = os.getenv('BITLY_TOKEN')
     parser = argparse.ArgumentParser(description='Сервис коротких ссылок')
     parser.add_argument('url', help='Ссылка')
     args = parser.parse_args()
@@ -69,3 +68,6 @@ if __name__ == "__main__":
         print(f'По вашей ссылке прошли {count} раз(а)')
     except requests.exceptions.HTTPError as e:
         print('Ошибка!!!', e)
+
+if __name__ == "__main__":
+    main()
