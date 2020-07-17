@@ -44,7 +44,7 @@ def recover_link(token, bitlink):
 
 def main():
     load_dotenv()
-    BITLY_TOKEN = os.getenv('BITLY_TOKEN')
+    bitly_token = os.getenv('BITLY_TOKEN')
     parser = argparse.ArgumentParser(description='Сервис коротких ссылок')
     parser.add_argument('url', help='Ссылка')
     args = parser.parse_args()
@@ -52,19 +52,19 @@ def main():
 
     if url.startswith('https://bit.ly'):
         try:
-            print('Восстановленная ссылка: ', recover_link(BITLY_TOKEN, get_bitlink(url)))
+            print('Восстановленная ссылка: ', recover_link(bitly_token, get_bitlink(url)))
         except requests.exceptions.HTTPError as e:
             print('Ошибка!!!', e)
             exit()
     else:
         try:
-            url = shorten_link(BITLY_TOKEN, url)
+            url = shorten_link(bitly_token, url)
             print('Короткая ссылка: ', url)
         except requests.exceptions.HTTPError as e:
             print('Ошибка!!!', e)
             exit()
     try:
-        count = count_clicks(BITLY_TOKEN, get_bitlink(url))
+        count = count_clicks(bitly_token, get_bitlink(url))
         print(f'По вашей ссылке прошли {count} раз(а)')
     except requests.exceptions.HTTPError as e:
         print('Ошибка!!!', e)
